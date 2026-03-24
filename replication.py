@@ -2,10 +2,10 @@
 """
 replication.py  --  Reproduce all results from:
 
-  "A Riemannian Metric for Three-Dimensional Color Discrimination
+  "A Metric for Three-Dimensional Color Discrimination
    Derived from V1 Population Fisher Information"
 
-This script evaluates the 17-parameter biological model and four
+This script evaluates the 17-parameter Fisher Information model and four
 standard color-difference formulas on four threshold datasets:
 MacAdam (1942), Koenderink et al. (2026), Wright (1941), and
 Huang et al. (2012).
