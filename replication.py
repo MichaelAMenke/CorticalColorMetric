@@ -302,7 +302,7 @@ HUANG_NAMES = [
 #  The model was optimized with differential evolution (scipy, pop=30,
 #  300 generations) using a weighted objective (1.5*MacAdam + 1.0*Koen
 #  + 1.0*Wright + 0.75*Huang) followed by Nelder-Mead polishing with
-#  a penalty term to enforce biological bounds.
+#  a penalty term to enforce Neurophysiological bounds.
 # =====================================================================
 
 PARAMS = np.array([
@@ -376,7 +376,7 @@ def opponent_coords(x, y, Y, params, adapt_lms):
 
 
 # =====================================================================
-#  Biological metric in opponent space
+#  Fisher Information metric in opponent space
 #
 #  G = G_P + G_K + G_N
 #
@@ -530,7 +530,7 @@ def cielab_metric_2d(x, y, Y):
 
 
 # =====================================================================
-#  Standard metrics via colour-science library (optional)
+#  Standard metrics via colour-science library
 # =====================================================================
 
 def _try_import_colour():
@@ -787,7 +787,7 @@ def stress_huang(huang_data, metric_fn_adapt, adapt_lms, n_angles=12):
 # =====================================================================
 
 def orientation_errors(data, metric_fn):
-    """Compute orientation error (degrees) for each MacAdam ellipse."""
+    """Compute orientation error (in degrees) for each MacAdam ellipse."""
     errors = []
     for ell in data:
         gp = metric_fn(ell["x"], ell["y"], ell["Y"])
@@ -805,7 +805,7 @@ def orientation_errors(data, metric_fn):
 
 
 def frobenius_mismatch(S_pred, S_obs):
-    """Relative Frobenius mismatch after optimal scaling."""
+    """Relative Frobenius mismatch after optimal scaling. (not used in the paper)"""
     ss = np.sum(S_pred * S_pred)
     if ss < 1e-30:
         return 1.0
@@ -819,7 +819,7 @@ def frobenius_mismatch(S_pred, S_obs):
 
 
 def frobenius_quartiles(data, sigma_fn):
-    """Compute Q1, Q2, Q3 of Frobenius mismatch across Koenderink data."""
+    """Compute Q1, Q2, Q3 of Frobenius mismatch across Koenderink data. (not used in the paper)"""
     vals = []
     for ell in data:
         Sp = sigma_fn(ell)
@@ -839,14 +839,14 @@ def frobenius_quartiles(data, sigma_fn):
 def main():
     print("=" * 65)
     print("Replication of paper results")
-    print("17-parameter biological model (Model S)")
+    print("Fisher Information model")
     print("=" * 65)
 
     mac_data = load_macadam()
     koen_data = load_koenderink()
 
     # -----------------------------------------------------------------
-    #  Evaluate the biological model on all four datasets
+    #  Evaluate the Fisher Information model on all four datasets
     # -----------------------------------------------------------------
 
     def bio_mac(x, y, Y):
@@ -864,7 +864,7 @@ def main():
     s_huang  = stress_huang(HUANG, bio_huang, LMS_D65)
     t4 = s_mac + s_koen + s_wright + s_huang
 
-    print(f"\nBiological model (17p):")
+    print(f"\nFisher Information Model:")
     print(f"  MacAdam:     {s_mac:.1f}")
     print(f"  Koenderink:  {s_koen:.1f}")
     print(f"  Wright:      {s_wright:.1f}")
@@ -925,7 +925,7 @@ def main():
             sw = stress_wright(WRIGHT, mf)
             sh = stress_huang(HUANG, wrap(mf), LMS_D65)
             print(f"{name:<20} {sm:>8.1f} {'--':>11} {sw:>8.1f} {sh:>8.1f}")
-    print(f"{'Biological (17p)':<20} {s_mac:>8.1f} {s_koen:>11.1f} "
+    print(f"{'Fisher Information':<20} {s_mac:>8.1f} {s_koen:>11.1f} "
           f"{s_wright:>8.1f} {s_huang:>8.1f}")
     print(f"{'=' * 65}")
 
