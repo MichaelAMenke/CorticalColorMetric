@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate paper figures for Model S (17p constrained)."""
+"""Generate paper figures for the Fisher Information model"""
 
 import numpy as np
 import matplotlib
@@ -9,7 +9,7 @@ from matplotlib.patches import Ellipse
 from matplotlib.colors import to_rgb
 
 # =====================================================================
-#  Model S parameters (constrained weighted-polish result)
+#  Fisher Information model parameters (constrained weighted-polish result)
 # =====================================================================
 
 PARAMS_S = np.array([
@@ -544,7 +544,7 @@ def plot_koenderink():
 # =====================================================================
 if __name__ == "__main__":
     print("=" * 60)
-    print("Generating paper figures for Model S (17p constrained)")
+    print("Ellipse figures for Fisher Information model")
     print("=" * 60)
     plot_macadam()
     plot_huang()
